@@ -28,8 +28,27 @@ public class Logic {
 	}
 	
 	public void update(){
+		checkKey();
 		
+		for(Entity x: ObjectHolder.getInstance().getObject()){
+			if(!x.isDestroyed()){
+				x.move();
+			}
+		}
 		
+		for(int i =  ObjectHolder.getInstance().getObject().size()-1; i >= 0; i--){
+			if(ObjectHolder.getInstance().getObject().get(i).isDestroyed()){
+				ObjectHolder.getInstance().getObject().remove(i);
+			}
+		}
+		
+		if(genji.isDestroyed() || hanzo.isDestroyed()){
+			Main.getInstance().stopUpdate();
+		}
+	}
+	
+	public void checkKey(){
+
 		if(!PressingKey.isEmpty()){
 			if(PressingKey.contains(KeyCode.A) && PressingKey.contains(KeyCode.D)){
 				if(PressingKey.indexOf(KeyCode.A) > PressingKey.indexOf(KeyCode.D)){
@@ -112,21 +131,6 @@ public class Logic {
 			genji.setDirectX(0);
 			hanzo.setMoving(false);
 			hanzo.setDirectX(0);
-		}
-		for(Entity x: ObjectHolder.getInstance().getObject()){
-			if(!x.isDestroyed()){
-				x.move();
-			}
-		}
-		
-		for(int i =  ObjectHolder.getInstance().getObject().size()-1; i >= 0; i--){
-			if(ObjectHolder.getInstance().getObject().get(i).isDestroyed()){
-				ObjectHolder.getInstance().getObject().remove(i);
-			}
-		}
-		
-		if(genji.isDestroyed() || hanzo.isDestroyed()){
-			Main.getInstance().stopUpdate();
 		}
 	}
 	

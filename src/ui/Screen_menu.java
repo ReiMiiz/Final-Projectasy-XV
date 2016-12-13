@@ -3,6 +3,8 @@ package ui;
 import java.io.File;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -113,64 +115,32 @@ public class Screen_menu extends StackPane{
 	}
 	
 	public void goToLoadingScreen(){
-		player.stop();
-		soundPlayer.stop();
-		canvas.setVisible(true);
-		
-		Thread load = new Thread(new Runnable(){
-			
-			@Override
-			public void run() {
-				System.out.println("Thread 1");
-				soundPlayer.play();
-				//soundPlayer = new MediaPlayer(new Media(new File(new File("media/music/loadingsound.mp4").getAbsolutePath()).toURI().toString()));
-				//MediaView soundView = new MediaView(soundPlayer);
-				
-				try {
-					Thread.sleep(7000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-		});
-		Thread finish = new Thread(new Runnable(){
+		Task<Void> sleeper = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                	player.stop();
+					soundPlayer.stop();
+					canvas.setVisible(true);
+					soundPlayer = new MediaPlayer(new Media(new File(new File("media/music/loadingsound.mp3").getAbsolutePath()).toURI().toString()));
+					soundPlayer.play();
+					soundPlayer.setVolume(0.1);
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                }
+                return null;
+            }
+        };
+        sleeper.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent event) {
+            	canvas.setVisible(false);
+		    	soundPlayer.stop();
+		    	Main.getInstance().toGame();
+            }
+        });
+        new Thread(sleeper).start();
 
-			@Override
-			public void run() {
-				Platform.runLater(new Runnable() {
-				    @Override
-				    public void run() {
-				    	System.out.println("Thread 2");
-				    	canvas.setVisible(false);
-				    	soundPlayer.stop();
-				    	Main.getInstance().toGame();
-				    }
-				});
-			}
-			
-			
-		});
-		load.start();
-		try {
-			load.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		finish.start();
-		try {
-			finish.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-
-		
-		
-		
 
 		
 	}
