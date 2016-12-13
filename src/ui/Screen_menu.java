@@ -2,6 +2,7 @@ package ui;
 
 import java.io.File;
 
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -35,6 +36,7 @@ public class Screen_menu extends StackPane{
 		overlay = new GridPane();
 		canvas = new Canvas(1280, 720);
 		gc = canvas.getGraphicsContext2D();
+		gc.drawImage(ObjectHolder.getInstance().load, 0, 0);
 		playBt = new Button();
 		playBt.setGraphic(new ImageView(new WritableImage(ObjectHolder.getInstance().playBt.getPixelReader(),0, 0, 300, 100)));	
 		
@@ -42,6 +44,9 @@ public class Screen_menu extends StackPane{
 		overlay.getColumnConstraints().add(new ColumnConstraints(100));
 		overlay.setAlignment(Pos.CENTER_LEFT);
 		getChildren().add(overlay);
+		canvas.setVisible(false);
+		getChildren().add(canvas);
+		
 		drawButton();
 		
 		playBt.setOnMouseReleased(new EventHandler<MouseEvent>(){
@@ -108,10 +113,65 @@ public class Screen_menu extends StackPane{
 	}
 	
 	public void goToLoadingScreen(){
-		
-		Main.getInstance().toGame();
 		player.stop();
 		soundPlayer.stop();
+		canvas.setVisible(true);
+		
+		Thread load = new Thread(new Runnable(){
+			
+			@Override
+			public void run() {
+				System.out.println("Thread 1");
+				soundPlayer.play();
+				//soundPlayer = new MediaPlayer(new Media(new File(new File("media/music/loadingsound.mp4").getAbsolutePath()).toURI().toString()));
+				//MediaView soundView = new MediaView(soundPlayer);
+				
+				try {
+					Thread.sleep(7000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
+		Thread finish = new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				Platform.runLater(new Runnable() {
+				    @Override
+				    public void run() {
+				    	System.out.println("Thread 2");
+				    	canvas.setVisible(false);
+				    	soundPlayer.stop();
+				    	Main.getInstance().toGame();
+				    }
+				});
+			}
+			
+			
+		});
+		load.start();
+		try {
+			load.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finish.start();
+		try {
+			finish.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+		
+		
+		
+
 		
 	}
 }

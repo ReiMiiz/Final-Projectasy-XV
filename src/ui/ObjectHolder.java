@@ -19,7 +19,7 @@ public class ObjectHolder {
 	private Comparator<Renderable> comparator;
 	
 	public Image[] bg;
-	public Image genjiPic, effectPic, hanzoPic, arrow, hpBar, hpGreen, playBt, title, pause;
+	public Image genjiPic, effectPic, hanzoPic, arrow, hpBar, hpGreen, playBt, title, pause, load;
 	public AudioClip[] sound;
 	
 	public ObjectHolder(){
@@ -68,6 +68,7 @@ public class ObjectHolder {
 		playBt = new Image(loader.getResourceAsStream("playButton.png"));
 		title = new Image(loader.getResourceAsStream("title.png"));
 		pause = new Image(loader.getResourceAsStream("pause.png"));
+		load = new Image(loader.getResourceAsStream("loadingscreen.gif"));
 		
 	}
 	

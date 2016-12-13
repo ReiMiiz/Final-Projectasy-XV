@@ -19,11 +19,9 @@ public class Screen_game extends StackPane {
 	protected GraphicsContext gc, back, overlay;
 	protected Image bg;
 	private double height, width;
-	private double drawW, drawH, chargeTime;
 	private static double mouseX;
 	private static double mouseY;
-	private boolean clickCheck, isPause;
-	private Thread chargeTimer;
+	private boolean isPause;
 	private Logic logic;
 
 	public Screen_game(double width, double height, Logic logic) {
@@ -31,7 +29,6 @@ public class Screen_game extends StackPane {
 		this.width = width;
 		this.height = height;
 		setPrefSize(width, height);
-		clickCheck = true;
 		overlayCanvas = new Canvas(width, height);
 		canvas = new Canvas(width, height);
 		backCanvas = new Canvas(width, height);
@@ -47,6 +44,10 @@ public class Screen_game extends StackPane {
 		canvas.setFocusTraversable(true);
 		back.drawImage(ObjectHolder.getInstance().bg[0], 0, 0);
 		// event
+		addEvent();
+	}
+
+	public void addEvent(){
 		canvas.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
@@ -153,7 +154,7 @@ public class Screen_game extends StackPane {
 			}
 		});
 	}
-
+	
 	public void setBackground(int n) {
 		back.clearRect(0, 0, width, height);
 		back.drawImage(ObjectHolder.getInstance().bg[n], 0, -300);
