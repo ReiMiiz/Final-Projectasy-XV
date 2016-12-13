@@ -5,51 +5,68 @@ import ui.Renderable;
 
 public abstract class Entity implements Renderable{
 
-	public int x, y, z;
-	public float directX, directY;
+	public double x, y, z;
+	public int directX, directY;
+	public double[] body;
+	boolean isDestroyed;
 	
 	
-	public Entity(int x, int y, int z, float dx, float dy){
+	public Entity(double x, double y, double z, int dx, int dy){
 		this.x = x;
 		this. y = y;
 		this.z = z;
 		this.directX = dx;
 		this.directY = dy;
+		body = new double[4];
 	}
 	
 	//getter
-	public int getX(){
+	public double[] getCollision(){
+		return body;
+	}
+	public double getX(){
 		return x;
 	}
-	public int getY(){
-		return x;
+	public double getY(){
+		return y;
 	}
-	public int getZ(){
+	public double getZ(){
 		return z;
 	}
-	public float getDirectX(){
+	public int getDirectX(){
 		return directX;
 	}
-	public float getDirectY(){
+	public int getDirectY(){
 		return directY;
 	}
-
+	public boolean isDestroyed() {
+		return isDestroyed;
+	}
 	
 	//setter
-	public void setX(int x){
+	public void setCollision(double x1,double x2,double y1,double y2){
+		body[0] = x1;
+		body[1] = x2;
+		body[2] = y1;
+		body[3] = y2;
+	}
+	public void setX(double x){
 		this.x = x;
 	}
-	public void setY(int y){
+	public void setY(double y){
 		this.y = y;
 	}
-	public void setZ(int z){
+	public void setZ(double z){
 		this.z = z;
 	}
-	public void setDirectX(float x){
+	public void setDirectX(int x){
 		this.directX = x;
 	}
-	public void setDirectY(float y){
+	public void setDirectY(int y){
 		this.directY = y;
+	}
+	public void Destroyed() {
+		isDestroyed = true;
 	}
 
 	

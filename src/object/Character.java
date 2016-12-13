@@ -2,24 +2,24 @@ package object;
 
 public abstract class Character extends Entity {
 	
-	public boolean isAttacked, isDestroyed;
-	public int hp, atk, moveSpeed;
+	public boolean isAttacked;
+	public int hp, moveSpeed, lastDirectX;
+	public boolean isMoving, Jumpable, attackable, isDown, isJump, isMove, isAir, isAtk;
 
-	public Character(int x, int y, int z, float dx, float dy, int hp, int atk, int moveSpeed) {
+	public Character(double x, double y, double z, int dx, int dy, int hp, int moveSpeed) {
 		super(x, y, z, dx, dy);
 
 		this.hp = hp;
-		this.atk = atk;
 		this.moveSpeed = moveSpeed;
 		isDestroyed = false;
 		isAttacked = false;
+		Jumpable = true;
+		attackable = true;
+		lastDirectX = dx;
 		
 	}
 	
 	// setter
-	public void Destroyed() {
-		isDestroyed = true;
-	}
 
 	public void setAttacked(boolean atked) {
 		isAttacked = atked;
@@ -28,15 +28,15 @@ public abstract class Character extends Entity {
 	public void setHP(int hp) {
 		this.hp = hp;
 	}
-
+	
 	// getter
 	public boolean isAttacked() {
 		return isAttacked;
 	}
-
-	public boolean isDestroyed() {
-		return isDestroyed;
+	public int getHP(){
+		return hp;
 	}
+
 
 	// other
 	public void reduceHP(int dmg) {
@@ -44,12 +44,11 @@ public abstract class Character extends Entity {
 			hp = hp - dmg;
 		}else{
 			hp = 0;
-			Destroyed();
+			
 		}
 	}
 	
 	//Absract
-	public abstract void move();
 	public abstract void attack();
 	
 }
