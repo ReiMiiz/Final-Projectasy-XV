@@ -73,7 +73,6 @@ public class Main extends Application{
 		gameScene = new Scene(game, 1280, 720);
 		primaryStage.setScene(gameScene);
 		primaryStage.show();
-		startUpdate();
 	}
 	public void toMenu(){
 		ObjectHolder.getInstance().LoadRes();
@@ -86,6 +85,10 @@ public class Main extends Application{
 	}
 	public void startUpdate(){
 		gameUpdate.start();
+	}
+	
+	public void endGame(){
+		game.endScreen();
 	}
 	
 	public static int getCurrentFrame(){

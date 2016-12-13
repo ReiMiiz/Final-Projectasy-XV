@@ -1,5 +1,6 @@
 package ui;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,9 +19,8 @@ public class ObjectHolder {
 	private static List<Entity> object;
 	private Comparator<Renderable> comparator;
 	
-	public Image[] bg;
-	public Image genjiPic, effectPic, hanzoPic, arrow, hpBar, hpGreen, playBt, title, pause, load;
-	public AudioClip[] sound;
+	public Image[] bg, victory;
+	public Image genjiPic, effectPic, hanzoPic, arrow, hpBar, hpGreen, playBt, title, pause, load, battle;
 	
 	public ObjectHolder(){
 		
@@ -57,7 +57,7 @@ public class ObjectHolder {
 		
 		ClassLoader loader = ClassLoader.getSystemClassLoader();
 		bg = new Image[4];
-		sound = new AudioClip[10];
+		victory = new Image[2];
 		bg[0] = new Image(loader.getResourceAsStream("Shimada Bros.png"));
 		effectPic = new Image(loader.getResourceAsStream("effect_sqn.png"));
 		genjiPic = new Image(loader.getResourceAsStream("genji_sqn4.png"));
@@ -69,7 +69,9 @@ public class ObjectHolder {
 		title = new Image(loader.getResourceAsStream("title.png"));
 		pause = new Image(loader.getResourceAsStream("pause.png"));
 		load = new Image(loader.getResourceAsStream("loadingscreen.gif"));
-		
+		battle = new Image(loader.getResourceAsStream("startSqn.png"));
+		victory[0] = new Image(loader.getResourceAsStream("genji_victory.png"));
+		victory[1] = new Image(loader.getResourceAsStream("hanzo_victory.png"));
 	}
 	
 }

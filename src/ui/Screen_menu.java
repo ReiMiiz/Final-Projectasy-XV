@@ -93,8 +93,8 @@ public class Screen_menu extends StackPane{
 	}
 	public void setBackground(){
 		Group root = new Group();
-		Media media = new Media(new File(new File("media/hanzo_bg.mp4").getAbsolutePath()).toURI().toString());
-		Media bgSound = new Media(new File(new File("media/music/main.mp3").getAbsolutePath()).toURI().toString());
+		Media media = new Media(new File("media/hanzo_bg.mp4").toURI().toString());
+		Media bgSound = new Media(new File("media/music/main.mp3").toURI().toString());
 		player = new MediaPlayer(media);
 		soundPlayer = new MediaPlayer(bgSound);
 		MediaView view = new MediaView(player);
@@ -122,7 +122,7 @@ public class Screen_menu extends StackPane{
                 	player.stop();
 					soundPlayer.stop();
 					canvas.setVisible(true);
-					soundPlayer = new MediaPlayer(new Media(new File(new File("media/music/loadingsound.mp3").getAbsolutePath()).toURI().toString()));
+					soundPlayer = new MediaPlayer(new Media(new File("media/music/loadingsound.mp3").toURI().toString()));
 					soundPlayer.play();
 					soundPlayer.setVolume(0.1);
                     Thread.sleep(10000);
@@ -141,7 +141,6 @@ public class Screen_menu extends StackPane{
         });
         new Thread(sleeper).start();
 
-
-		
 	}
+	
 }

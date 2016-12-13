@@ -1,8 +1,11 @@
 package Logic;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import main.Main;
 import object.Hanzo;
 import object.Entity;
@@ -16,11 +19,12 @@ public class Logic {
 	public Genji genji;
 	public Hanzo hanzo;
 	public ArrayList<KeyCode> PressingKey;
+	private boolean isOvertime;
 	
 	public Logic(){
 		genji = new Genji(200, 500, 0, 0, 0, 200, 7);
 		hanzo = new Hanzo(1000, 500, 0, 0, 0, 200, 6);
-		
+		isOvertime = false;
 		ObjectHolder.getInstance().add(genji);
 		ObjectHolder.getInstance().add(hanzo);
 		PressingKey = new ArrayList<KeyCode>();
@@ -42,8 +46,15 @@ public class Logic {
 			}
 		}
 		
-		if(genji.isDestroyed() || hanzo.isDestroyed()){
+		if(genji.getHP()==0 || hanzo.getHP()==0){
 			Main.getInstance().stopUpdate();
+			Main.getInstance().endGame();
+		}
+		if((genji.getHP()<=60 || hanzo.getHP()<=60) && !isOvertime){
+			isOvertime = true;
+			MediaPlayer soundPlayer = new MediaPlayer(new Media(new File(new File("media/music/Overtime.mp3").getAbsolutePath()).toURI().toString()));
+			soundPlayer.play();
+			soundPlayer.setVolume(0.1);
 		}
 	}
 	
